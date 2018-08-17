@@ -8,7 +8,6 @@
     以centos为例:yum install sysstat -y
 4.启动
     ./monitor_1.sh &
-
 5.监控
     使用crontab
     * * * * * /data/scripts/mo_mo.sh
