@@ -153,7 +153,7 @@ db_record()
     buffer_utilization=0
     #记录日志
     echo $db_id,$slow_queries,$connections,$buffer_utilization >> $logfile
-    #出入数据库
+    #插入数据库
      mysql -h$host -u$username -p$password -P$port -e \
      "insert into $dbname.db_record(db_id,slow_queries,connections,buffer_utilization) \
      values($db_id,$slow_queries,$connections,$buffer_utilization);"
