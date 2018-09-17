@@ -64,7 +64,7 @@ disk_record()
         total=${temp[0]}
         used=${temp[1]}
         #记录日志
-        echo $path $used >> $logfile
+        echo $path $total $used >> $logfile
         #出入数据库
         mysql -h$host -u$username -p$password -P$port -e "insert into $dbname.disk_record(host_id,path,total,used,create_time) values($host_id,'$path',$total,$used,'$create_time');"
     done
