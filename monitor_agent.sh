@@ -124,7 +124,7 @@ app_record()
         cpu_used=0
         memory_used=0
         if [[ $pid ]];then
-            temp=(`ps -aux |grep $pid |grep -v grep |awk '{print $3,$4}'`)
+            temp=(`ps aux |grep $pid |grep -v grep |awk '{print $3,$4}'`)
             is_start=1
             start_time=$(date -d "`ps -p $pid -o lstart|tail -1`" "+%Y-%m-%d %H:%M:%S")
             http_connections=`netstat -antp|grep $port|grep ESTAB|wc -l`
