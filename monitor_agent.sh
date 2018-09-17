@@ -59,8 +59,9 @@ disk_record()
 {
     create_time=`date "+%Y-%m-%d %H:%M:%S"`
     for path in ${disk_path[@]};do
-        #df -hP 加-P参数解决换行问题
-        temp=(`df -hP $path |tail -1|awk '{print $2,$3}'|sed 's@G@@g'`)
+        #df -P 加-P参数解决换行问题
+        #-BG 以G为单位显示
+        temp=(`df -P -BG $path |tail -1|awk '{print $2,$3}'|sed 's@G@@g'`)
         total=${temp[0]}
         used=${temp[1]}
         #记录日志
