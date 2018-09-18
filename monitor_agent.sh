@@ -26,7 +26,7 @@ app_conf='/data/monitor/app_mo.ini'
 
 cpu_record()
 {
-    temp=(`sar |tail -1 |awk '{print $3,$4,$5,$6,$8}'`)
+    temp=(`sar 1 1 |tail -1 |awk '{print $3,$4,$5,$6,$8}'`)
     #12:00:01 AM     CPU     %user     %nice   %system   %iowait    %steal     %idle
     #Average:        all      0.02      0.00      0.02      0.00      0.00     99.97
     us=${temp[0]}
