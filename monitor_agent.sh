@@ -74,7 +74,7 @@ disk_io_record()
 {
     create_time=`date "+%Y-%m-%d %H:%M:%S"`
     #获取物理磁盘
-    diskarray=(`cat /proc/diskstats |grep -E "\bsd[abcdefg]\b|\bvd[abcdefg]\b"|grep -i "\b$1\b"|awk '{print $3}'|sort|uniq   2>/dev/null`)
+    diskarray=(`cat /proc/diskstats |grep -E "\bx?[shv]d[abcdefg]\b"|grep -i "\b$1\b"|awk '{print $3}'|sort|uniq   2>/dev/null`)
     for disk in ${diskarray[@]};do
         io_temp=(`iostat -d -k "$disk" |grep "$disk" |awk '{print $2,$3,$4}'`)
         io_tps=0
