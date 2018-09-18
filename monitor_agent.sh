@@ -116,14 +116,15 @@ app_record()
 {
     apps=(`cat $app_conf|grep -v '^#'|cut -d ';' -f1`)
     for app_id in ${apps[@]};do
-        cmd=`cat $app_conf|grep -v '^#'|grep $app_id|cut -d ';' -f3`
-        pid=`ps -ef|grep "$cmd" |grep -v grep |awk '{print $2}'`
+        cmd=`cat $app_conf|grep -v '^#'|grep $app_id|cut -d ';' -f2`
+        pids=(`ps -ef|grep "$cmd" |grep -v grep |awk '{print $2}'`)
         is_start=0
         start_time=`date "+%Y-%m-%d %H:%M:%S"`
         cpu_used=0
         memory_used=0
+        pid=${pids[0]}
         if [[ $pid ]];then
-            temp=(`ps aux |grep $pid |grep -v grep |awk '{print $3,$4}'`)
+            temp=(`ps aux |grep "$cmd" |grep -v grep |awk '{print $3,$4}'|awk '{for(i=1;i<=NF;i++)a[i]+=$i;print}END{for(j=1;j<=NF;j++)printf a[j]"\t"}'`)
             is_start=1
             start_time=$(date -d "`ps -p $pid -o lstart|tail -1`" "+%Y-%m-%d %H:%M:%S")          
             cpu_used=${temp[0]}
