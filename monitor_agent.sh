@@ -124,7 +124,7 @@ app_record()
         memory_used=0
         pid=${pids[0]}
         if [[ $pid ]];then
-            temp=(`ps aux |grep "$cmd" |grep -v grep |awk '{print $3,$4}'|awk '{for(i=1;i<=NF;i++)a[i]+=$i;print}END{for(j=1;j<=NF;j++)printf a[j]"\t"}'|tail -1`)
+            temp=(`ps aux |grep "$cmd" |grep -v grep |awk '{print $3,$4}'|awk '{for(i=1;i<=NF;i++)a[i]+=$i}END{for(j=1;j<=NF;j++)printf a[j]"\t"}'`)
             is_start=1
             start_time=$(date -d "`ps -p $pid -o lstart|tail -1`" "+%Y-%m-%d %H:%M:%S")          
             cpu_used=${temp[0]}
