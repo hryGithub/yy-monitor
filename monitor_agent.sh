@@ -117,7 +117,6 @@ app_record()
     apps=(`cat $app_conf|grep -v '^#'|cut -d ';' -f1`)
     for app_id in ${apps[@]};do
         cmd=`cat $app_conf|grep -v '^#'|grep $app_id|cut -d ';' -f3`
-        port=`cat $app_conf|grep -v '^#'|grep $app_id|cut -d ';' -f2`
         pid=`ps -ef|grep "$cmd" |grep -v grep |awk '{print $2}'`
         is_start=0
         start_time=`date "+%Y-%m-%d %H:%M:%S"`
@@ -126,8 +125,7 @@ app_record()
         if [[ $pid ]];then
             temp=(`ps aux |grep $pid |grep -v grep |awk '{print $3,$4}'`)
             is_start=1
-            start_time=$(date -d "`ps -p $pid -o lstart|tail -1`" "+%Y-%m-%d %H:%M:%S")
-            http_connections=`netstat -antp|grep $port|grep ESTAB|wc -l`
+            start_time=$(date -d "`ps -p $pid -o lstart|tail -1`" "+%Y-%m-%d %H:%M:%S")          
             cpu_used=${temp[0]}
             memory_used=${temp[1]}
         fi
