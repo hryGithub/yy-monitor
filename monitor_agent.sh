@@ -73,7 +73,7 @@ disk_record()
 disk_io_record()
 {
     create_time=`date "+%Y-%m-%d %H:%M:%S"`
-    #获取物理磁盘
+    #获取物理磁盘(sd,hd,xvd)
     diskarray=(`cat /proc/diskstats |grep -E "\bx?[shv]d[abcdefg]\b"|grep -i "\b$1\b"|awk '{print $3}'|sort|uniq   2>/dev/null`)
     for disk in ${diskarray[@]};do
         io_temp=(`iostat -d -k "$disk" |grep "$disk" |awk '{print $2,$3,$4}'`)
