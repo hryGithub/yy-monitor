@@ -102,7 +102,7 @@ net_record()
     #获取网卡流量
     temp_r=`sar -n DEV 1 1|grep  ^Average|grep -vE "lo|IFACE"`
     for net in ${nets[@]};do
-        temp=(`echo $temp_r|grep "$net"|awk '{print $5,$6}'`)
+        temp=(`echo -e "$temp_r"|grep "$net"|awk '{print $5,$6}'`)
         in=${temp[0]}
         out=${temp[1]}
         #记录日志
