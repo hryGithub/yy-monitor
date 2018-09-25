@@ -176,23 +176,23 @@ http_record()
 
 while true;
 do
-    echo `date "+%Y-%m-%d %H:%M:%S"`
-    echo "cpu_record:"
+    echo `date "+%Y-%m-%d %H:%M:%S"` >> $logfile
+    echo "cpu_record:" >> $logfile
     cpu_record
-    echo "memory_record:"
+    echo "memory_record:" >> $logfile
     memory_record
-    echo "disk_record:"
+    echo "disk_record:" >> $logfile
     disk_record
-    echo "disk_io_record:"
+    echo "disk_io_record:" >> $logfile
     disk_io_record
-    echo "net_record:"
+    echo "net_record:" >> $logfile 
     net_record
-    echo "app_record:"
+    echo "app_record:" >> $logfile
     app_record
-    #echo "db_record:"
+    #echo "db_record:" >> $logfile
     #db_record
-	#echo "http_record:"
+	#echo "http_record:" >> $logfile
 	#http_record
-    echo "----------------------------------------------------------------"
+    echo "----------------------------------------------------------------" >> $logfile
     sleep $delay
 done
