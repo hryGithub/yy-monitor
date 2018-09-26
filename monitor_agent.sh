@@ -98,7 +98,8 @@ net_record()
 {
     create_time=`date "+%Y-%m-%d %H:%M:%S"`
     #获取服务所有网卡
-    nets=(`ip link | grep ^[0-9] | awk -F: '{print $2}'|grep -v lo`)
+    #nets=(`ip link | grep ^[0-9] | awk -F: '{print $2}'|grep -v lo`)
+    nets=(`ls /sys/class/net|grep -v lo`)
     #获取网卡流量
     temp_r=`sar -n DEV 1 1|grep  ^Average|grep -vE "lo|IFACE"`
     for net in ${nets[@]};do
