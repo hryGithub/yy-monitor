@@ -103,12 +103,14 @@ net_record()
     temp_r=`sar -n DEV 1 1|grep  ^Average|grep -vE "lo|IFACE"`
     for net in ${nets[@]};do
         temp=(`echo -e "$temp_r"|grep "$net"|awk '{print $5,$6}'`)
-        in=${temp[0]}
-        out=${temp[1]}
-        #记录日志
-        echo $net $in $out >> $logfile
-        #插入数据库
-        mysql -h$host -u$username -p$password -P$port -e "insert into $dbname.net_record(host_id,net,net_in_rate,net_out_rate,create_time) values($host_id,'$net',$in,$out,'$create_time');"
+        if [ ${#temp[@]} != 0 ];then
+            in=${temp[0]}
+            out=${temp[1]}
+            #记录日志
+            echo $net $in $out >> $logfile
+            #插入数据库
+            mysql -h$host -u$username -p$password -P$port -e "insert into $dbname.net_record(host_id,net,net_in_rate,net_out_rate,create_time) values($host_id,'$net',$in,$out,'$create_time');"
+        fi
     done
 }
 
