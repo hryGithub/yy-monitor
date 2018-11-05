@@ -5,7 +5,7 @@
 # 2.依赖组件
     服务器需要安装sysstat,部分数据需要用到 以centos为例:yum install sysstat -y 
 # 3.注意事项
-    脚本使用root账户运行,monitor_agent.sh中的logifle,app_conf需要提前创建好
+    脚本使用root账户运行,monitor_agent.sh中的logfile,app_conf需要提前创建好
 # 4.启动 
     ./monitor_agent.sh & 
 # 5.监控 
