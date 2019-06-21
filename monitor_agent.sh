@@ -4,9 +4,6 @@
 #本机host_id
 host_id=
 
-#日志文件
-logfile="/var/log/monitor_agent.log"
-
 #数据库配置
 host="127.0.0.1"
 port=3306
@@ -35,7 +32,7 @@ cpu_record()
     wa=${temp[3]}
     id=${temp[4]}
     #记录日志
-    echo $us $sy $ni $id $wa >> $logfile
+    echo $us $sy $ni $id $wa 
     #插入数据库
     mysql -h$host -u$username -p$password -P$port -e "insert into $dbname.cpu_record(host_id,cpu_idle,cpu_nice,cpu_system,cpu_user,cpu_wait) values($host_id,$id,$ni,$sy,$us,$wa);"
 }
@@ -51,7 +48,7 @@ memory_record()
     buffers=${temp[4]}
     cached=${temp[5]}
     #记录日志
-    echo $total $used $free $shared $buffer $cached >> $logfile
+    echo $total $used $free $shared $buffer $cached 
     #插入数据库
     mysql -h$host -u$username -p$password -P$port -e "insert into $dbname.memory_record(host_id,used,free,shared,buffers,cached) values($host_id,$used,$free,$shared,$buffers,$cached);"
 }
@@ -65,7 +62,7 @@ disk_record()
         total=${temp[0]}
         used=${temp[1]}
         #记录日志
-        echo $path $total $used >> $logfile
+        echo $path $total $used 
         #出入数据库
         mysql -h$host -u$username -p$password -P$port -e "insert into $dbname.disk_record(host_id,path,total,used,create_time) values($host_id,'$path',$total,$used,'$create_time');"
     done
@@ -86,7 +83,7 @@ disk_io_record()
             io_ws=${io_temp[2]}
         fi
         #记录日志
-        echo $host_id   $disk  $io_tps $io_rs  $io_ws >> $logfile
+        echo $host_id   $disk  $io_tps $io_rs  $io_ws 
         #插入数据库
         #字符串形式的需要加单引号
         mysql -h$host -u$username -p$password -P$port -e "insert into $dbname.disk_io_record(host_id,disk,io_read,io_write,io_tps,create_time) values($host_id,'$disk',$io_rs,$io_ws,$io_tps,'$create_time');"
@@ -107,7 +104,7 @@ net_record()
             in=${temp[0]}
             out=${temp[1]}
             #记录日志
-            echo $net $in $out >> $logfile
+            echo $net $in $out 
             #插入数据库
             mysql -h$host -u$username -p$password -P$port -e "insert into $dbname.net_record(host_id,net,net_in_rate,net_out_rate,create_time) values($host_id,'$net',$in,$out,'$create_time');"
         fi
@@ -133,7 +130,7 @@ app_record()
             memory_used=${temp[1]}
         fi
         #日志记录
-        echo $app_id,$is_start,$start_time,$cpu_used,$memory_used >> $logfile
+        echo $app_id,$is_start,$start_time,$cpu_used,$memory_used 
         #插入数据库
         mysql -h$host -u$username -p$password -P$port -e \
         "insert into $dbname.app_record(app_id,is_start,start_time,cpu_used,memory_used) \
@@ -155,7 +152,7 @@ db_record()
     slow_queries=0
     buffer_utilization=0
     #记录日志
-    echo $db_id,$slow_queries,$connections,$buffer_utilization >> $logfile
+    echo $db_id,$slow_queries,$connections,$buffer_utilization 
     #插入数据库
      mysql -h$host -u$username -p$password -P$port -e \
      "insert into $dbname.db_record(db_id,slow_queries,connections,buffer_utilization) \
@@ -170,7 +167,7 @@ http_record()
 
     connections=`netstat -an|grep $port|grep ESTAB|wc -l`
     #记录日志
-    echo $http_id $port $connections >> $logfile
+    echo $http_id $port $connections 
     #插入数据库
     mysql -h$host -u$username -p$password -P$port -e "insert into $dbname.http_record(http_id,connections) values($http_id,$connections)"
 }			 
@@ -178,23 +175,23 @@ http_record()
 
 while true;
 do
-    echo `date "+%Y-%m-%d %H:%M:%S"` >> $logfile
-    echo "cpu_record:" >> $logfile
+    echo `date "+%Y-%m-%d %H:%M:%S"` 
+    echo "cpu_record:" 
     cpu_record
-    echo "memory_record:" >> $logfile
+    echo "memory_record:" 
     memory_record
-    echo "disk_record:" >> $logfile
+    echo "disk_record:" 
     disk_record
-    echo "disk_io_record:" >> $logfile
+    echo "disk_io_record:" 
     disk_io_record
-    echo "net_record:" >> $logfile 
+    echo "net_record:"  
     net_record
-    echo "app_record:" >> $logfile
+    echo "app_record:" 
     app_record
-    #echo "db_record:" >> $logfile
+    #echo "db_record:" 
     #db_record
-	#echo "http_record:" >> $logfile
+	#echo "http_record:" 
 	#http_record
-    echo "----------------------------------------------------------------" >> $logfile
+    echo "----------------------------------------------------------------" 
     sleep $delay
 done
